@@ -14,7 +14,7 @@ $ cd .. && docker build random
 ```
 - replace <image_id> below with the generated docker image ID 
 ```bash
-$ sudo docker run -p 8080:8080 <image_id>
+$ docker run -p 8080:8080 <image_id>
 ```
 ## Usage
 
