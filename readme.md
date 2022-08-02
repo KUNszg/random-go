@@ -18,4 +18,4 @@ $ docker run -p 8080:8080 <image_id>
 ```
 ## Usage
 
-- send a GET request ```$ curl localhost:8080/random/mean?length=<l>&requests=<r>``` in your browser, replace \<l> with amount of random values you want to receive and \<r> with number of requests
+- send a GET request ```$ curl "http://localhost:8080/random/mean?length=<l>&requests=<r>"``` in your browser, replace \<l> with amount of random values you want to receive and \<r> with number of requests
