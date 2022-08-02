@@ -18,15 +18,14 @@ import (
 	"time"
 )
 
-
 // random.org api key
 var apiKey string
 
 var apiURL = "https://api.random.org/json-rpc/4/invoke"
 
 func getRes(requests string, length int, randomID int) (response string, err error) {
-	
-	// define structs for POST request payload 
+
+	// define structs for POST request payload
 	// and let the json parser know how the key names should look like
 	type Params struct {
 		ApiKey                    string `json:"apiKey"`
@@ -116,12 +115,12 @@ func standardDeviation(arr []int) (result float64) {
 	// iterate to sum up all the values in provided int slice
 	for i := 1; i <= n; i++ {
 		sum += float64(arr[i-1])
-	} 
+	}
 
 	// divide the summed up values by the number of values
 	mean = sum / float64(n)
 
-	// use the standard deviation formula part (x - s)^2 + (x - s)^2 (...) 
+	// use the standard deviation formula part (x - s)^2 + (x - s)^2 (...)
 	for j := 0; j < n; j++ {
 		stddev += math.Pow(float64(arr[j])-mean, 2)
 	}
@@ -157,15 +156,19 @@ func main() {
 
 		resp := make(map[string]any)
 
+		length, err := strconv.Atoi(r.URL.Query().Get("length"))
+
+		requests := r.URL.Query().Get("requests")
+		_requests, err := strconv.Atoi(requests)
+
 		// handle user errors
-		if (r.URL.Query().Get("length") < 3) {
+		if length < 3 {
 			w.WriteHeader(http.StatusBadRequest)
 			resp["status"] = strconv.Itoa(http.StatusBadRequest)
 			resp["message"] = "length value has to be more than 2"
 		}
 
-
-		if (r.URL.Query().Get("requests") < 1) {
+		if _requests < 1 {
 			w.WriteHeader(http.StatusBadRequest)
 			resp["status"] = strconv.Itoa(http.StatusBadRequest)
 			resp["message"] = "requests parameter value has to be more than 0"
@@ -177,16 +180,11 @@ func main() {
 			resp["message"] = "no random.org API key was provided, check the app readme for proper configuration"
 		}
 
-		length, err := strconv.Atoi(r.URL.Query().Get("length"))
-
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			resp["status"] = http.StatusInternalServerError
 			resp["message"] = "error parsing the request parameters"
 		}
-
-		requests := r.URL.Query().Get("requests")
-		_requests, err := strconv.Atoi(r.URL.Query().Get("requests"))
 
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
@@ -221,8 +219,8 @@ func main() {
 				result, err := getRes(requests, length, randomID)
 
 				if err != nil {
-					// get the error status codes and message 
-					result := strings.Split(result, ":")
+					// get the error status codes and message
+					_result := strings.Split(result, ":")
 					if _result[0] == "500" || _result[0] == "408" {
 						status, _ := strconv.Atoi(_result[0])
 
