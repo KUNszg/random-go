@@ -10,8 +10,8 @@ RUN go mod download
 COPY *.go ./
 COPY config.txt ./
 
-RUN go build -o /random
+RUN go build -o /random-go
 
 EXPOSE 8080
 
-CMD [ "/random" ]
+CMD [ "/random-go" ]
