@@ -10,7 +10,7 @@ $ git clone https://github.com/KUNszg/random-go.git
 - paste the API key into config.txt file
 - build the docker image
 ```bash
-$ cd .. && docker build random 
+$ cd .. && docker build random-go
 ```
 - replace <image_id> below with the generated docker image ID 
 ```bash
